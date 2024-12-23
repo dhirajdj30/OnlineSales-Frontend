@@ -9,7 +9,7 @@ const App = () => {
   const handleSubmit = (data) => {
     setLoading(true);
 
-    fetch("http://ethixlucifer.eastus2.cloudapp.azure.com:3000/evaluate", {
+    fetch("https://ethixlucifer.eastus2.cloudapp.azure.com:3000/evaluate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
