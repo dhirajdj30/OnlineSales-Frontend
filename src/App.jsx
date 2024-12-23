@@ -5,32 +5,31 @@ import ResponsePage from "./ResponsePage";
 const App = () => {
   const [loading, setLoading] = useState(false);
   const [imageData, setImageData] = useState(null);
-
-  const handleSubmit = (data) => {
+  const handleSubmit = async (data) => {
     setLoading(true);
-
-    fetch("https://ethixlucifer.eastus2.cloudapp.azure.com:3000/evaluate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setImageData(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-        setLoading(false);
+  
+    try {
+      const response = await fetch("https://ethixlucifer.eastus2.cloudapp.azure.com:3000/evaluate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+  
+      const dataResponse = await response.json();
+      setImageData(dataResponse);
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   const handleReset = () => {
     setImageData(null);
